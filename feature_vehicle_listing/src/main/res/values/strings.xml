@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="call_dealer_cap">CALL DEALER</string>
+    <string name="vehicle_photo_image_view_cd">The picture of the car listed</string>
+
+    <!--  Vehicle Detail Fragment  -->
+
+    <string name="vehicle_info">Vehicle Info</string>
+    <string name="location">Location</string>
+    <string name="exterior_color">Exterior Color</string>
+    <string name="interior_color">Interior Color</string>
+    <string name="drive_type">Drive Type</string>
+    <string name="transmission">Automatic</string>
+    <string name="body_style">Body Style</string>
+    <string name="engine">Engine</string>
+    <string name="fuel">Fuel</string>
+
+</resources>

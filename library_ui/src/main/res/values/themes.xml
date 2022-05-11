@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Carfax" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/main_app_color_blue_1</item>
+        <item name="colorOnPrimary">@color/main_app_color_blue_1</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/main_app_color_blue_1</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Customize your theme here. -->
+        <item name="android:background">@android:color/white</item>
+
+    </style>
+
+</resources>

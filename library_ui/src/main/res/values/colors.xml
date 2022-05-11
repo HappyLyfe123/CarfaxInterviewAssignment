@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_app_color_blue_1">#3777bc</color>
+
+    <!--  Grey  -->
+    <color name="grey1">#878787</color>
+</resources>
