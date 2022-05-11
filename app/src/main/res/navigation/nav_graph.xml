@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/vehicleListingFragment">
+    <fragment
+        android:id="@+id/vehicleListingFragment"
+        android:name="com.carfax.feature_vehicle_listing.VehicleListingFragment"
+        android:label="VehicleListingFragment" />
+    <include app:graph="@navigation/vehicle_listing_graph" />
+
+
+</navigation>

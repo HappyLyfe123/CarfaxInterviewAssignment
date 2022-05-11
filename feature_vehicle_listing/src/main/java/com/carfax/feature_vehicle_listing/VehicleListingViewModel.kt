@@ -3,6 +3,7 @@ package com.carfax.feature_vehicle_listing
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 import com.carfax.feature_vehicle_listing.domain.repository.VehicleListingRepository
 import com.carfax.feature_vehicle_listing.model.VehicleListingState
 import com.carfax.library_utils.Resource
@@ -23,7 +24,6 @@ class VehicleListingViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        Timber.d("Hello")
         viewModelScope.launch {
             repository.getVehicleListing(fetchFromRemote = false).collect { result ->
                 when (result) {
@@ -44,9 +44,8 @@ class VehicleListingViewModel @Inject constructor(
 
     }
 
-    fun test() {
-        Timber.d("Test")
+    fun getVehicleDetail(position: Int): VehicleDetail{
+        return _state.value.vehicleDetailListing[position]
     }
-
 
 }

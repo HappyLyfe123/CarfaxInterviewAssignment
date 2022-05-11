@@ -4,6 +4,7 @@ plugins {
     id(GradlePluginId.KOTLIN_PARCELIZE)
     id(GradlePluginId.KOTLIN_KAPT)
     id(GradlePluginId.HILT)
+    id(GradlePluginId.NAVIGATION_SAFEARGS)
 }
 
 android {
@@ -66,6 +67,10 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit)
     api(libs.retrofit.gson)
+
+    //Navigation
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
 
     //Coil
     implementation(libs.coil)

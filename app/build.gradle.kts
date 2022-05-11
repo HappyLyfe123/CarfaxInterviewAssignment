@@ -63,8 +63,9 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
+
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     kapt(libs.hilt.compiler)
 
     // Logging

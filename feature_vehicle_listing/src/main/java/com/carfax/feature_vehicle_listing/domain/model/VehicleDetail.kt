@@ -1,5 +1,8 @@
 package com.carfax.feature_vehicle_listing.domain.model
 
+import java.text.NumberFormat
+import java.util.*
+
 data class VehicleDetail(
     val id: String,
     val images: Images,
@@ -18,12 +21,18 @@ data class VehicleDetail(
     val engine: String,
     val fuel: String,
 ){
+
+    private val currencyFormat: NumberFormat = NumberFormat.getCurrencyInstance().apply {
+        maximumFractionDigits = 0
+        currency = Currency.getInstance(Locale.US)
+    }
+
     fun formatYearMakeModelTrim(): String{
         return String.format("%s %s %s %s",year, make, model, trim)
     }
 
     fun formatPrice(): String{
-        return "$ $price"
+        return currencyFormat.format(price)
     }
 
     fun formatMileage(): String{

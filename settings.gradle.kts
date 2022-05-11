@@ -78,6 +78,11 @@ dependencyResolutionManagement {
             alias("androidx-fragmentKtx").to("androidx.fragment:fragment-ktx:1.4.1")
             alias("androidx-recyclerview").to("androidx.recyclerview:recyclerview:1.2.1")
 
+            // Kotlin
+            version("nav_version", "2.4.2")
+            alias("navigation-fragment").to("androidx.navigation", "navigation-fragment-ktx").versionRef("nav_version")
+            alias("navigation-ui").to("androidx.navigation", "navigation-ui-ktx").versionRef("nav_version")
+
             // Database
             alias("androidx-room").to("androidx.room:room-ktx:2.4.2")
 

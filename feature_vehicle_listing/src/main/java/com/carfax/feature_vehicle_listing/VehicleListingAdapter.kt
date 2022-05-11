@@ -13,7 +13,7 @@ import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 
 class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.VehicleListingVehicleDetail>(DiffCallback()) {
 
-    var onVehicleClick: ((VehicleDetail) -> Unit)? = null
+    var onVehicleClick: ((Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleListingVehicleDetail {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,7 +30,7 @@ class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.V
 
         init {
             itemView.setOnClickListener {
-                onVehicleClick?.invoke(getItem(absoluteAdapterPosition))
+                onVehicleClick?.invoke(absoluteAdapterPosition)
             }
         }
 

@@ -7,4 +7,5 @@ object GradlePluginId {
     const val KOTLIN_KAPT = "org.jetbrains.kotlin.kapt"
     const val KOTLIN_PARCELIZE = "org.jetbrains.kotlin.plugin.parcelize"
     const val HILT = "dagger.hilt.android.plugin"
+    const val NAVIGATION_SAFEARGS = "androidx.navigation.safeargs.kotlin"
 }

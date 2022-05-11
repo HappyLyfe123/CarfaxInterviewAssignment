@@ -58,6 +58,10 @@ dependencies {
     implementation(libs.androidx.core.coreKtx)
     api(libs.androidx.fragmentKtx)
 
+    //Navigation
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+
     // Android Ui
     api(libs.androidx.recyclerview)
 
