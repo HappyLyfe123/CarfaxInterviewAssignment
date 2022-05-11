@@ -1,34 +1,58 @@
 package com.carfax.feature_vehicle_listing
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.carfax.feature_vehicle_listing.databinding.ViewHolderVehicleInfoBinding
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 
-class VehicleListingAdapter: RecyclerView.Adapter<VehicleListingVehicleInfoVH>() {
+class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.VehicleListingVehicleDetail>(DiffCallback()) {
 
-    private val vehicleListing = ArrayList<VehicleDetail>()
+    var onVehicleClick: ((VehicleDetail) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleListingVehicleInfoVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleListingVehicleDetail {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.view_holder_vehicle_info, parent, false)
-        return VehicleListingVehicleInfoVH(view)
+        return VehicleListingVehicleDetail(view)
     }
 
-    override fun onBindViewHolder(holder: VehicleListingVehicleInfoVH, position: Int) {
-        holder.bind(vehicleListing[position])
+    override fun onBindViewHolder(holder: VehicleListingVehicleDetail, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int = vehicleListing.size
+    inner class VehicleListingVehicleDetail(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = ViewHolderVehicleInfoBinding.bind(itemView)
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateListing(newListing: List<VehicleDetail>){
-        with(vehicleListing){
-            clear()
-            addAll(newListing)
+        init {
+            itemView.setOnClickListener {
+                onVehicleClick?.invoke(getItem(absoluteAdapterPosition))
+            }
         }
-        notifyDataSetChanged()
+
+        fun bind(itemView: VehicleDetail) {
+            with(binding) {
+                vehiclePhotoImageView.load(itemView.images.smallImage)
+                vehicleYearMakeModelTrimTextView.text = itemView.formatYearMakeModelTrim()
+                vehiclePriceTextView.text = itemView.formatPrice()
+                vehicleMileageTextView.text = itemView.formatMileage()
+                vehicleLocationTextView.text = itemView.formatLocation()
+            }
+        }
     }
 
+}
+
+class DiffCallback : DiffUtil.ItemCallback<VehicleDetail>() {
+    override fun areItemsTheSame(oldItem: VehicleDetail, newItem: VehicleDetail): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(@NonNull oldItem: VehicleDetail, @NonNull newItem: VehicleDetail): Boolean {
+        return true
+    }
 }
