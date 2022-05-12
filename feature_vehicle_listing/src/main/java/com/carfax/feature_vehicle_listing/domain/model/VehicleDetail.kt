@@ -5,7 +5,7 @@ import java.util.*
 
 data class VehicleDetail(
     val id: String,
-    val images: Images,
+    val vehicleImage: VehicleImage,
     val year: Int,
     val make: String,
     val model: String,
@@ -17,6 +17,7 @@ data class VehicleDetail(
     val exteriorColor: String,
     val interiorColor: String,
     val driveType: String,
+    val bodyStyle: String,
     val transmission: String,
     val engine: String,
     val fuel: String,
@@ -48,7 +49,7 @@ data class VehicleDetail(
     }
 }
 
-data class Images(
+data class VehicleImage(
     val baseURL: String,
     val smallImage: String,
     val mediumImage: String,

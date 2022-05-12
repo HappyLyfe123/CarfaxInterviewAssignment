@@ -36,7 +36,7 @@ class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.V
 
         fun bind(itemView: VehicleDetail) {
             with(binding) {
-                vehiclePhotoImageView.load(itemView.images.smallImage)
+                vehiclePhotoImageView.load(itemView.vehicleImage.smallImage)
                 vehicleYearMakeModelTrimTextView.text = itemView.formatYearMakeModelTrim()
                 vehiclePriceTextView.text = itemView.formatPrice()
                 vehicleMileageTextView.text = itemView.formatMileage()

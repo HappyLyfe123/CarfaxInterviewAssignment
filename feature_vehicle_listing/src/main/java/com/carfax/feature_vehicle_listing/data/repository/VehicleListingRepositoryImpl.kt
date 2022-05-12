@@ -1,7 +1,10 @@
 package com.carfax.feature_vehicle_listing.data.repository
 
-import com.carfax.feature_vehicle_listing.data.mapper.toVehicleDetailListing
+import com.carfax.feature_vehicle_listing.data.local.VehicleListingDatabase
+import com.carfax.feature_vehicle_listing.data.mapper.toVehicleDetail
+import com.carfax.feature_vehicle_listing.data.mapper.toVehicleDetailEntity
 import com.carfax.feature_vehicle_listing.data.remote.api.VehicleListingApi
+import com.carfax.feature_vehicle_listing.data.remote.dto.VehicleListingDto
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 import com.carfax.feature_vehicle_listing.domain.repository.VehicleListingRepository
 import com.carfax.library_utils.Resource
@@ -9,7 +12,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
 import retrofit2.HttpException
+import retrofit2.Retrofit
+import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
+import javax.net.ssl.SSLEngineResult
 
 
 /*
@@ -17,33 +24,58 @@ import javax.inject.Inject
 *
 * @return
 * */
-
+@Singleton
 class VehicleListingRepositoryImpl @Inject constructor(
-    private val api: VehicleListingApi
+    private val api: VehicleListingApi,
+    private val db: VehicleListingDatabase
 ): VehicleListingRepository {
+
+    private val dao = db.doa
+
     override suspend fun getVehicleListing(fetchFromRemote: Boolean): Flow<Resource<List<VehicleDetail>>> {
         return flow {
             emit(Resource.Loading(true))
 
-//            // Check if we want
-//            if(!fetchFromRemote){
-//
-//            }
-
-            try {
-                val response = api.getVehicleListing()
-                if (!response.isSuccessful){
-                    emit(Resource.Error("Couldn't load data"))
-                    return@flow
-                }
-
-                val vehicleList = mutableListOf<VehicleDetail>()
-                response.body()?.let { body ->
-                    body.listings.forEach {
-                        vehicleList.add(it.toVehicleDetailListing())
+            // Get the data from cache
+            if(!fetchFromRemote){
+                dao.getVehicleListing().run {
+                    // Check if there data in cache. If there no data in cache
+                    // then it will go on to make remote api call
+                    if (!isNullOrEmpty()){
+                        emit(Resource.Success(
+                            this.map {
+                                it.toVehicleDetail()
+                            }
+                        ))
+                        emit(Resource.Loading(false))
+                        return@flow
                     }
                 }
-                emit(Resource.Success(vehicleList))
+            }
+
+            try {
+                api.getVehicleListing().run {
+                    if(!isSuccessful || this.code() != 200){
+                        emit(Resource.Error("Couldn't load data"))
+                        return@flow
+                    }
+
+                    val vehicleListing = this.body()?.listings?.map {
+                        it.toVehicleDetail()
+                    }
+                    dao.clearVehicleListing()
+                    if (vehicleListing != null) {
+                        Timber.d("The cache size is")
+                        dao.insertVehicleListing(
+                            vehicleListing.map { it.toVehicleDetailEntity() }
+                        )
+                        emit(Resource.Success(dao.getVehicleListing().map {
+                            it.toVehicleDetail()
+                        }))
+                    }
+                }
+
+
 
             } catch (e: IOException){
                 e.printStackTrace()

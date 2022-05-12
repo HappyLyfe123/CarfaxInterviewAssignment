@@ -19,7 +19,7 @@ class VehicleDetailFragment: Fragment(R.layout.fragment_vehicle_detail) {
             viewModel.getVehicleDetail(it)
         }.let {
             if (it != null) {
-                binding.vehiclePhotoImageView.load(it.images.smallImage)
+                binding.vehiclePhotoImageView.load(it.vehicleImage.smallImage)
                 binding.vehicleYearMakeModelTrimTextView.text = it.formatYearMakeModelTrim()
                 binding.vehiclePriceTextView.text = it.formatPrice()
                 binding.vehicleMileageTextView.text = it.formatMileage()
@@ -28,9 +28,17 @@ class VehicleDetailFragment: Fragment(R.layout.fragment_vehicle_detail) {
                 binding.interiorColorInfoTextView.text = it.interiorColor
                 binding.driveTypeInfoTextView.text = it.driveType
                 binding.transmissionInfoTextView.text = it.transmission
+                binding.bodyStyleInfoTextView.text = it.bodyStyle
                 binding.engineInfoTextView.text = it.engine
+                binding.bodyStyleInfoTextView.text
                 binding.fuelInfoTextView.text = it.fuel
             }
+        }
+
+        binding.callDealerButton.setOnClickListener{
+//            val callIntent = Intent(Intent.ACTION_CALL)
+//            callIntent.data = Uri.parse("tel:"+"9783198783")
+//            startActivity(callIntent)
         }
     }
 

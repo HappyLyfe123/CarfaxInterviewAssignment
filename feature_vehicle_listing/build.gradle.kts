@@ -77,4 +77,9 @@ dependencies {
 
     // Logging
     implementation(libs.timber)
+
+    // Room
+    implementation(libs.androidx.room)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 }

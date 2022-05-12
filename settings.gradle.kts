@@ -83,8 +83,12 @@ dependencyResolutionManagement {
             alias("navigation-fragment").to("androidx.navigation", "navigation-fragment-ktx").versionRef("nav_version")
             alias("navigation-ui").to("androidx.navigation", "navigation-ui-ktx").versionRef("nav_version")
 
-            // Database
-            alias("androidx-room").to("androidx.room:room-ktx:2.4.2")
+            // Room
+            version("room", "2.4.2")
+            alias("androidx-room").to("androidx.room","room-runtime").versionRef("room")
+            alias("androidx-room-compiler").to("androidx.room","room-compiler").versionRef("room")
+            alias("androidx_room-ktx").to("androidx.room", "room-ktx").versionRef("room")
+
 
             // ViewBinding
             alias("zhuinden-fragmentViewBindingDelegate").to("com.github.Zhuinden", "fragmentviewbindingdelegate-kt").version("1.0.0")

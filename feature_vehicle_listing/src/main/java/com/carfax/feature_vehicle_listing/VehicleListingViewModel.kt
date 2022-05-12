@@ -25,7 +25,7 @@ class VehicleListingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.getVehicleListing(fetchFromRemote = false).collect { result ->
+            repository.getVehicleListing(fetchFromRemote = true).collect { result ->
                 when (result) {
                     is Resource.Success -> {
                         _state.value = _state.value.copy(

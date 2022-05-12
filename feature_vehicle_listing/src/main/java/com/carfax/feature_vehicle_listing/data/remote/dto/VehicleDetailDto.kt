@@ -3,10 +3,10 @@ package com.carfax.feature_vehicle_listing.data.remote.dto
 import com.google.gson.annotations.SerializedName
 
 data class VehicleListingDto(
-    @SerializedName("listings") val listings: List<VehicleDetail>
+    @SerializedName("listings") val listings: List<RemoteVehicleDetail>
 )
 
-data class VehicleDetail(
+data class RemoteVehicleDetail(
     @SerializedName("id") val id: String,
     @SerializedName("year") val year: Int,
     @SerializedName("make") val make: String,
@@ -17,6 +17,7 @@ data class VehicleDetail(
     @SerializedName("exteriorColor") val exteriorColor: String,
     @SerializedName("interiorColor") val interiorColor: String,
     @SerializedName("drivetype") val driveType: String,
+    @SerializedName("bodytype") val bodyType: String,
     @SerializedName("transmission") val transmission: String,
     @SerializedName("engine") val engine: String,
     @SerializedName("fuel") val fuel: String,
