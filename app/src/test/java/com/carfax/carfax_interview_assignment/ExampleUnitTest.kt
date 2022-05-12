@@ -1,4 +1,4 @@
-package com.carfax.carfaxinterviewassignment
+package com.carfax.carfax_interview_assignment
 
 import org.junit.Test
 

@@ -1,6 +1,7 @@
-package com.carfax.carfaxinterviewassignment
+package com.carfax.carfax_interview_assignment
 
 import android.app.Application
+import carfaxInterviewAssignment.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 

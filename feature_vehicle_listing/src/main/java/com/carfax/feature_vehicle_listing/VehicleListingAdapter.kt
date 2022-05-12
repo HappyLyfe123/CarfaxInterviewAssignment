@@ -14,6 +14,7 @@ import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.VehicleListingVehicleDetail>(DiffCallback()) {
 
     var onVehicleClick: ((Int) -> Unit)? = null
+    var onCallDealerClick: ((String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleListingVehicleDetail {
         val inflater = LayoutInflater.from(parent.context)
@@ -41,6 +42,9 @@ class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.V
                 vehiclePriceTextView.text = itemView.formatPrice()
                 vehicleMileageTextView.text = itemView.formatMileage()
                 vehicleLocationTextView.text = itemView.formatLocation()
+                callDealerButton.setOnClickListener {
+                    onCallDealerClick?.invoke(itemView.phoneNumber)
+                }
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.carfax.feature_vehicle_listing
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
@@ -11,12 +10,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class VehicleListingViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val repository: VehicleListingRepository
 ) : ViewModel() {
 
@@ -24,6 +21,10 @@ class VehicleListingViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
+        getVehicleListing()
+    }
+
+    private fun getVehicleListing() {
         viewModelScope.launch {
             repository.getVehicleListing(fetchFromRemote = true).collect { result ->
                 when (result) {
@@ -41,11 +42,9 @@ class VehicleListingViewModel @Inject constructor(
                 }
             }
         }
-
     }
 
-    fun getVehicleDetail(position: Int): VehicleDetail{
+    fun getVehicleDetail(position: Int): VehicleDetail {
         return _state.value.vehicleDetailListing[position]
     }
-
 }

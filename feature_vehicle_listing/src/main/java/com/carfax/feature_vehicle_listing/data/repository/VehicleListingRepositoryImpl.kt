@@ -4,7 +4,6 @@ import com.carfax.feature_vehicle_listing.data.local.VehicleListingDatabase
 import com.carfax.feature_vehicle_listing.data.mapper.toVehicleDetail
 import com.carfax.feature_vehicle_listing.data.mapper.toVehicleDetailEntity
 import com.carfax.feature_vehicle_listing.data.remote.api.VehicleListingApi
-import com.carfax.feature_vehicle_listing.data.remote.dto.VehicleListingDto
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 import com.carfax.feature_vehicle_listing.domain.repository.VehicleListingRepository
 import com.carfax.library_utils.Resource
@@ -12,15 +11,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
 import retrofit2.HttpException
-import retrofit2.Retrofit
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import javax.net.ssl.SSLEngineResult
 
 
 /*
-* @param api:
+* @param api the api the
+* @param db the caching database
 *
 * @return
 * */
@@ -55,7 +52,7 @@ class VehicleListingRepositoryImpl @Inject constructor(
 
             try {
                 api.getVehicleListing().run {
-                    if(!isSuccessful || this.code() != 200){
+                    if (!isSuccessful) {
                         emit(Resource.Error("Couldn't load data"))
                         return@flow
                     }
@@ -63,9 +60,10 @@ class VehicleListingRepositoryImpl @Inject constructor(
                     val vehicleListing = this.body()?.listings?.map {
                         it.toVehicleDetail()
                     }
-                    dao.clearVehicleListing()
+
                     if (vehicleListing != null) {
-                        Timber.d("The cache size is")
+                        // Clear the previous cache and then save the new data into cache
+                        dao.clearVehicleListing()
                         dao.insertVehicleListing(
                             vehicleListing.map { it.toVehicleDetailEntity() }
                         )
@@ -74,9 +72,6 @@ class VehicleListingRepositoryImpl @Inject constructor(
                         }))
                     }
                 }
-
-
-
             } catch (e: IOException){
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't load data"))
@@ -86,7 +81,6 @@ class VehicleListingRepositoryImpl @Inject constructor(
             } finally {
                 emit(Resource.Loading(false))
             }
-
         }
     }
 }
