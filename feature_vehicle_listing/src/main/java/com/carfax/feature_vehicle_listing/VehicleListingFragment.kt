@@ -5,12 +5,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -19,7 +21,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.carfax.feature_vehicle_listing.VehicleDetailFragment.Companion.SELECTED_VEHICLE_POSITION_BUNDLE_KEY
 import com.carfax.feature_vehicle_listing.databinding.FragmentVehicleListingBinding
 import com.carfax.library_ui.PermissionRequestCode
 import com.carfax.library_ui.viewLifecycleScope
@@ -30,13 +31,14 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+
 @AndroidEntryPoint
 class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
 
     private val binding by viewBinding(FragmentVehicleListingBinding::bind)
     private val viewModel: VehicleListingViewModel by viewModels()
     private val vehicleListingAdapter = VehicleListingAdapter()
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
         if (isGranted) {
@@ -129,7 +131,6 @@ class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
             Timber.d("${state.vehicleDetailListing.complete}")
             vehicleListingAdapter.submitList(state.vehicleDetailListing.invoke())
         }
-
     }
 
 }

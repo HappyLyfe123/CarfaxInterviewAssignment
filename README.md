@@ -25,3 +25,10 @@ there no internet connection.
 * Mockk: This is use for mocking the data that's need for testing.
 
 ## Images
+### Splash Screen
+![original image](https://github.com/HappyLyfe123/CarfaxInterviewAssignment/blob/master/work_app_image/splash_screen.png)
+
+### Vehicle Listing
+![original image](https://github.com/HappyLyfe123/CarfaxInterviewAssignment/blob/master/work_app_image/vehicle_listing.png)
+
+### Vehicle Detail

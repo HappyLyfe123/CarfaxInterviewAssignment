@@ -1,6 +1,7 @@
 package com.carfax.feature_vehicle_listing
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -21,7 +22,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.carfax.feature_vehicle_listing.databinding.FragmentVehicleDetailBinding
 import com.carfax.library_ui.PermissionRequestCode
-import com.carfax.library_ui.viewLifecycleScope
+import com.carfax.library_ui.viewLi1fecycleScope
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -29,12 +30,14 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+
 @AndroidEntryPoint
 class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
 
     private val binding by viewBinding(FragmentVehicleDetailBinding::bind)
     private val viewModel: VehicleDetailViewModel by viewModels()
     private val args: VehicleDetailFragmentArgs by navArgs()
+    private var themeContext : Context? = null
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
         if (isGranted) {
@@ -45,6 +48,7 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
             showPermissionError()
         }
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -135,9 +139,5 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
             }
         val dialog = builder.create()
         dialog.show()
-    }
-
-    companion object {
-        const val SELECTED_VEHICLE_POSITION_BUNDLE_KEY = "selectedVehiclePositionBundleKey"
     }
 }

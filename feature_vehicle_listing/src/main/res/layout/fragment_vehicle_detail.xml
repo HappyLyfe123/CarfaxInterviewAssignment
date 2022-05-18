@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:theme="@style/Theme.Carfax.StatusBar.Translucent">
 
     <ImageView
         android:id="@+id/vehicle_photo_image_view"
@@ -13,6 +14,7 @@
         android:contentDescription="@string/vehicle_photo_image_view_cd"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/test_car_small" />
@@ -239,7 +241,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/main_app_color_blue_1"
+        android:background="@color/blue_100"
         android:text="@string/call_dealer_cap"
         android:textColor="@android:color/white"
         android:textSize="22sp"
