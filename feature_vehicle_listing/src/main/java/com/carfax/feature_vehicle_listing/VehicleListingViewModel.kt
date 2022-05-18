@@ -4,13 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 import com.carfax.feature_vehicle_listing.domain.repository.VehicleListingRepository
-import com.carfax.feature_vehicle_listing.model.VehicleListingState
-import com.carfax.library_utils.Resource
+import com.carfax.library_network.Async
+import com.carfax.library_network.Uninitialized
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+
+data class VehicleListingState(
+    val vehicleDetailListing: Async<List<VehicleDetail>> = Uninitialized,
+)
 
 @HiltViewModel
 class VehicleListingViewModel @Inject constructor(
@@ -25,26 +31,16 @@ class VehicleListingViewModel @Inject constructor(
     }
 
     private fun getVehicleListing() {
-        viewModelScope.launch {
-            repository.getVehicleListing(fetchFromRemote = true).collect { result ->
-                when (result) {
-                    is Resource.Success -> {
-                        _state.value = _state.value.copy(
-                            vehicleDetailListing = result.data!!
-                        )
-                    }
-                    is Resource.Error -> Unit
-                    is Resource.Loading -> {
-                        _state.value = _state.value.copy(
-                            isLoading = result.isLoading
-                        )
-                    }
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getVehicleListing().collect { result ->
+                _state.value = _state.value.copy(
+                    vehicleDetailListing = result
+                )
             }
         }
     }
 
-    fun getVehicleDetail(position: Int): VehicleDetail {
-        return _state.value.vehicleDetailListing[position]
+    fun getDealerPhoneNumber() {
+
     }
 }

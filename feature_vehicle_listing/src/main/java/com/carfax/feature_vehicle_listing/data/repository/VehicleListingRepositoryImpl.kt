@@ -6,7 +6,9 @@ import com.carfax.feature_vehicle_listing.data.mapper.toVehicleDetailEntity
 import com.carfax.feature_vehicle_listing.data.remote.api.VehicleListingApi
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 import com.carfax.feature_vehicle_listing.domain.repository.VehicleListingRepository
-import com.carfax.library_utils.Resource
+import com.carfax.library_network.Async
+import com.carfax.library_network.Fail
+import com.carfax.library_network.Success
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
@@ -29,31 +31,13 @@ class VehicleListingRepositoryImpl @Inject constructor(
 
     private val dao = db.doa
 
-    override suspend fun getVehicleListing(fetchFromRemote: Boolean): Flow<Resource<List<VehicleDetail>>> {
+    override suspend fun getVehicleListing(): Flow<Async<List<VehicleDetail>>> {
         return flow {
-            emit(Resource.Loading(true))
-
-            // Get the data from cache
-            if(!fetchFromRemote){
-                dao.getVehicleListing().run {
-                    // Check if there data in cache. If there no data in cache
-                    // then it will go on to make remote api call
-                    if (!isNullOrEmpty()){
-                        emit(Resource.Success(
-                            this.map {
-                                it.toVehicleDetail()
-                            }
-                        ))
-                        emit(Resource.Loading(false))
-                        return@flow
-                    }
-                }
-            }
 
             try {
                 api.getVehicleListing().run {
                     if (!isSuccessful) {
-                        emit(Resource.Error("Couldn't load data"))
+                        //emit(Fail("Couldn't load data"))
                         return@flow
                     }
 
@@ -67,19 +51,26 @@ class VehicleListingRepositoryImpl @Inject constructor(
                         dao.insertVehicleListing(
                             vehicleListing.map { it.toVehicleDetailEntity() }
                         )
-                        emit(Resource.Success(dao.getVehicleListing().map {
-                            it.toVehicleDetail()
-                        }))
                     }
                 }
-            } catch (e: IOException){
+            } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-            } catch (e: HttpException){
+                emit(Fail(Throwable("Couldn't load data")))
+            } catch (e: HttpException) {
                 e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
+                emit(Fail(Throwable("Couldn't load data")))
             } finally {
-                emit(Resource.Loading(false))
+                emit(Success(dao.getVehicleListing().map {
+                    it.toVehicleDetail()
+                }))
+            }
+        }
+    }
+
+    override suspend fun getVehicleDetail(id: String): Flow<Async<VehicleDetail>> {
+        return flow{
+            dao.getVehicleDetail(id).run {
+                emit(Success(this.toVehicleDetail()))
             }
         }
     }

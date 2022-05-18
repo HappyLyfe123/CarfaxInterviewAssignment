@@ -50,7 +50,7 @@ android {
 
 dependencies {
     implementation(project(":library_ui"))
-    implementation(project(":library_utils"))
+    implementation(project(":library_network"))
 
 
     // Android
@@ -65,15 +65,15 @@ dependencies {
 
 
     // Retrofit
-    implementation(libs.retrofit)
-    api(libs.retrofit.gson)
+    api(libs.retrofit)
+    api(libs.moshi)
 
     //Navigation
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
+    api(libs.navigation.fragment)
+    api(libs.navigation.ui)
 
-    //Coil
-    implementation(libs.coil)
+    //Glide
+    implementation(libs.glide)
 
     // Logging
     implementation(libs.timber)
@@ -81,5 +81,17 @@ dependencies {
     // Room
     implementation(libs.androidx.room)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.rxjava3)
     kapt(libs.androidx.room.compiler)
+
+    //ReactiveX
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+    implementation(libs.rxkotlin)
+
+    //Testing
+    testImplementation(libs.mockk)
+    testImplementation(libs.junit5)
+
+
 }

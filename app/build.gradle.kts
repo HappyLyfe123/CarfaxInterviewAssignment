@@ -56,16 +56,13 @@ dependencies {
     implementation(project(":feature_vehicle_listing"))
 
     implementation(project(":library_ui"))
-    implementation(project(":library_utils"))
+    implementation(project(":library_network"))
 
     // Splash Screen
     implementation(libs.androidx.core.splashScreen)
 
     // Hilt
     implementation(libs.hilt.android)
-
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
     kapt(libs.hilt.compiler)
 
     // Logging

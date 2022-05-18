@@ -14,5 +14,9 @@
     <fragment
         android:id="@+id/vehicleDetailFragment"
         android:name="com.carfax.feature_vehicle_listing.VehicleDetailFragment"
-        android:label="VehicleDetailFragment" />
+        android:label="VehicleDetailFragment" >
+        <argument
+            android:name="vehicle_id"
+            app:argType="string" />
+    </fragment>
 </navigation>

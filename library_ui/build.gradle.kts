@@ -68,4 +68,8 @@ dependencies {
     // Lifecycle
     api(libs.androidx.lifecycle.runtimeKtx)
 
+    // Navigation
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+
 }

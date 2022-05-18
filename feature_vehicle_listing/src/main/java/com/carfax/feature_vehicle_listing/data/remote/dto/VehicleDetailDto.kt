@@ -1,43 +1,43 @@
 package com.carfax.feature_vehicle_listing.data.remote.dto
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class VehicleListingDto(
-    @SerializedName("listings") val listings: List<RemoteVehicleDetail>
+    @field:Json(name = "listings") val listings: List<RemoteVehicleDetail>
 )
 
 data class RemoteVehicleDetail(
-    @SerializedName("id") val id: String,
-    @SerializedName("year") val year: Int,
-    @SerializedName("make") val make: String,
-    @SerializedName("model") val model: String,
-    @SerializedName("trim") val trim: String,
-    @SerializedName("listPrice") val price: Int,
-    @SerializedName("mileage") val mileage: Int,
-    @SerializedName("exteriorColor") val exteriorColor: String,
-    @SerializedName("interiorColor") val interiorColor: String,
-    @SerializedName("drivetype") val driveType: String,
-    @SerializedName("bodytype") val bodyType: String,
-    @SerializedName("transmission") val transmission: String,
-    @SerializedName("engine") val engine: String,
-    @SerializedName("fuel") val fuel: String,
-    @SerializedName("dealer") val dealerInfo: DealerDto,
-    @SerializedName("images") val images: Images
+    @field:Json(name = "id") val id: String,
+    @field:Json(name = "year") val year: Int,
+    @field:Json(name = "make") val make: String,
+    @field:Json(name = "model") val model: String,
+    @field:Json(name = "trim") val trim: String,
+    @field:Json(name = "listPrice") val price: Int,
+    @field:Json(name = "mileage") val mileage: Int,
+    @field:Json(name = "exteriorColor") val exteriorColor: String,
+    @field:Json(name = "interiorColor") val interiorColor: String,
+    @field:Json(name = "drivetype") val driveType: String,
+    @field:Json(name = "bodytype") val bodyType: String,
+    @field:Json(name = "transmission") val transmission: String,
+    @field:Json(name = "engine") val engine: String,
+    @field:Json(name = "fuel") val fuel: String,
+    @field:Json(name = "dealer") val dealerInfo: DealerDto,
+    @field:Json(name = "images") val images: Images
 )
 
 data class Images(
-    @SerializedName("baseUrl") val baseURL: String,
-    @SerializedName("firstPhoto") val firstPhoto: ImagesType
+    @field:Json(name = "baseUrl") val baseURL: String,
+    @field:Json(name = "firstPhoto") val firstPhoto: ImagesType
 )
 
 data class ImagesType(
-    @SerializedName("small") val small: String,
-    @SerializedName("medium") val medium: String,
-    @SerializedName("large") val large: String
+    @field:Json(name = "small") val small: String,
+    @field:Json(name = "medium") val medium: String,
+    @field:Json(name = "large") val large: String
 )
 
 data class DealerDto(
-    @SerializedName("city") val city: String,
-    @SerializedName("state") val state: String,
-    @SerializedName("phone") val phone: String
+    @field:Json(name= "city") val city: String,
+    @field:Json(name= "state") val state: String,
+    @field:Json(name= "phone") val phone: String
 )

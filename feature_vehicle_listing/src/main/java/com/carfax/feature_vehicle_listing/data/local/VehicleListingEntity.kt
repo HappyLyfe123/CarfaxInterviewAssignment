@@ -3,9 +3,10 @@ package com.carfax.feature_vehicle_listing.data.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import com.carfax.feature_vehicle_listing.domain.model.VehicleImage
 import com.carfax.feature_vehicle_listing.domain.model.LocationInfo
-import com.google.gson.Gson
+import com.carfax.feature_vehicle_listing.domain.model.VehicleImage
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 
 @Entity(
     tableName = "vehicleListing"
@@ -30,25 +31,28 @@ data class VehicleDetailEntity(
     val fuel: String,
 )
 
-class VehicleListingConverters{
+class VehicleListingConverters {
+
+    private val locationJsonAdapter: JsonAdapter<LocationInfo> = Moshi.Builder().build().adapter(LocationInfo::class.java)
+    private val vehicleImageJsonAdapter: JsonAdapter<VehicleImage> = Moshi.Builder().build().adapter(VehicleImage::class.java)
 
     @TypeConverter
-    fun fromLocation(location: LocationInfo): String{
-        return Gson().toJson(location)
+    fun fromLocation(location: LocationInfo): String {
+        return locationJsonAdapter.toJson(location)
     }
 
     @TypeConverter
-    fun toLocation(location: String): LocationInfo{
-        return Gson().fromJson(location, LocationInfo::class.java)
+    fun toLocation(location: String): LocationInfo? {
+        return locationJsonAdapter.fromJson(location)
     }
 
     @TypeConverter
     fun fromVehicleImage(vehicleImage: VehicleImage): String{
-        return Gson().toJson(vehicleImage)
+        return vehicleImageJsonAdapter.toJson(vehicleImage)
     }
 
     @TypeConverter
-    fun toVehicleImage(vehicleImage: String): VehicleImage{
-        return Gson().fromJson(vehicleImage, VehicleImage::class.java)
+    fun toVehicleImage(vehicleImage: String): VehicleImage? {
+        return vehicleImageJsonAdapter.fromJson(vehicleImage)
     }
 }

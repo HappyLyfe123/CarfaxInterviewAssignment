@@ -7,14 +7,16 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.carfax.feature_vehicle_listing.databinding.ViewHolderVehicleInfoBinding
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 
 class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.VehicleListingVehicleDetail>(DiffCallback()) {
 
-    var onVehicleClick: ((Int) -> Unit)? = null
+    var onVehicleClick: ((String) -> Unit)? = null
     var onCallDealerClick: ((String) -> Unit)? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleListingVehicleDetail {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,22 +31,24 @@ class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.V
     inner class VehicleListingVehicleDetail(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ViewHolderVehicleInfoBinding.bind(itemView)
 
-        init {
-            itemView.setOnClickListener {
-                onVehicleClick?.invoke(absoluteAdapterPosition)
-            }
-        }
-
         fun bind(itemView: VehicleDetail) {
             with(binding) {
-                vehiclePhotoImageView.load(itemView.vehicleImage.smallImage)
+                Glide.with(binding.root.context).load(itemView.vehicleImage.mediumImage)
+                    .placeholder(R.drawable.default_image_placeholder)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .into(binding.vehiclePhotoImageView)
                 vehicleYearMakeModelTrimTextView.text = itemView.formatYearMakeModelTrim()
                 vehiclePriceTextView.text = itemView.formatPrice()
                 vehicleMileageTextView.text = itemView.formatMileage()
                 vehicleLocationTextView.text = itemView.formatLocation()
-                callDealerButton.setOnClickListener {
+
+                binding.root.setOnClickListener {
+                    onVehicleClick?.invoke(itemView.id)
+                }
+                binding.callDealerButton.setOnClickListener {
                     onCallDealerClick?.invoke(itemView.phoneNumber)
                 }
+
             }
         }
     }
@@ -57,6 +61,6 @@ class DiffCallback : DiffUtil.ItemCallback<VehicleDetail>() {
     }
 
     override fun areContentsTheSame(@NonNull oldItem: VehicleDetail, @NonNull newItem: VehicleDetail): Boolean {
-        return true
+        return oldItem == newItem
     }
 }
