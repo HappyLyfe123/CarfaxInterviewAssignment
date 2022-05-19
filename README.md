@@ -26,7 +26,7 @@ there no internet connection.
 
 ## Images
 ### Splash Screen
-![original image](https://github.com/HappyLyfe123/CarfaxInterviewAssignment/blob/master/work_app_image/splash_screen.png)
+![image|320x320](https://github.com/HappyLyfe123/CarfaxInterviewAssignment/blob/master/work_app_image/splash_screen.png)
 
 ### Vehicle Listing
 ![original image](https://github.com/HappyLyfe123/CarfaxInterviewAssignment/blob/master/work_app_image/vehicle_listing.png)
