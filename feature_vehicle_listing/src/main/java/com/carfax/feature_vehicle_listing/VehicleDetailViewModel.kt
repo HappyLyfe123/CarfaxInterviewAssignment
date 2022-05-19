@@ -22,20 +22,18 @@ class VehicleDetailViewModel @Inject constructor(
     private val repository: VehicleListingRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(VehicleDetailState())
-    val state = _state.asStateFlow()
+    private val _viewState = MutableStateFlow(VehicleDetailState())
+    val viewState = _viewState.asStateFlow()
 
     fun getVehicleDetail(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getVehicleDetail(id).collect { result ->
-                _state.value = _state.value.copy(
-                    vehicleDetail = result
-                )
-            }
+            _viewState.value = _viewState.value.copy(
+                vehicleDetail = repository.getVehicleDetail(id)
+            )
         }
     }
 
     fun getDealerPhoneNumber(): String {
-        return _state.value.vehicleDetail.invoke()?.phoneNumber ?: ""
+        return _viewState.value.vehicleDetail.invoke()?.dealerInfo?.phoneNumber ?: ""
     }
 }

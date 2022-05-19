@@ -9,20 +9,11 @@ import com.carfax.feature_vehicle_listing.domain.repository.VehicleListingReposi
 import com.carfax.library_network.Async
 import com.carfax.library_network.Fail
 import com.carfax.library_network.Success
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import okio.IOException
 import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
-/*
-* @param api the api the
-* @param db the caching database
-*
-* @return
-* */
 @Singleton
 class VehicleListingRepositoryImpl @Inject constructor(
     private val api: VehicleListingApi,
@@ -31,47 +22,39 @@ class VehicleListingRepositoryImpl @Inject constructor(
 
     private val dao = db.doa
 
-    override suspend fun getVehicleListing(): Flow<Async<List<VehicleDetail>>> {
-        return flow {
-
-            try {
-                api.getVehicleListing().run {
-                    if (!isSuccessful) {
-                        //emit(Fail("Couldn't load data"))
-                        return@flow
-                    }
-
-                    val vehicleListing = this.body()?.listings?.map {
-                        it.toVehicleDetail()
-                    }
-
-                    if (vehicleListing != null) {
-                        // Clear the previous cache and then save the new data into cache
-                        dao.clearVehicleListing()
-                        dao.insertVehicleListing(
-                            vehicleListing.map { it.toVehicleDetailEntity() }
-                        )
-                    }
+    override suspend fun getVehicleListing(): Async<List<VehicleDetail>> {
+        try {
+            api.getVehicleListing().run {
+                if (!isSuccessful) {
+                    return Fail(Throwable("Could load data"), emptyList())
                 }
-            } catch (e: IOException) {
-                e.printStackTrace()
-                emit(Fail(Throwable("Couldn't load data")))
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                emit(Fail(Throwable("Couldn't load data")))
-            } finally {
-                emit(Success(dao.getVehicleListing().map {
-                    it.toVehicleDetail()
-                }))
+
+                val vehicleListing = this.body()
+
+                if (vehicleListing != null) {
+                    dao.clearVehicleListing()
+                    dao.insertVehicleListing(
+                        vehicleListing.listings.map { it.toVehicleDetailEntity() }
+                    )
+                }
             }
+            return Success(dao.getVehicleListing().map {
+                it.toVehicleDetail()
+            })
+        } catch (e: IOException) {
+            return Fail(e, value = dao.getVehicleListing().map {
+                it.toVehicleDetail()
+            })
+        } catch (e: HttpException) {
+            return Fail(e, value = dao.getVehicleListing().map {
+                it.toVehicleDetail()
+            })
         }
     }
 
-    override suspend fun getVehicleDetail(id: String): Flow<Async<VehicleDetail>> {
-        return flow{
-            dao.getVehicleDetail(id).run {
-                emit(Success(this.toVehicleDetail()))
-            }
-        }
+    override suspend fun getVehicleDetail(id: String): Async<VehicleDetail> {
+        return Success(dao.getVehicleDetail(id).run {
+            this.toVehicleDetail()
+        })
     }
 }

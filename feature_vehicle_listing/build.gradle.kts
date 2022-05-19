@@ -7,6 +7,7 @@ plugins {
     id(GradlePluginId.NAVIGATION_SAFEARGS)
 }
 
+
 android {
     compileSdk = AndroidConfig.COMPILE_SDK_VERSION
 
@@ -46,6 +47,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+tasks.withType<Test>{
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -92,6 +97,7 @@ dependencies {
     //Testing
     testImplementation(libs.mockk)
     testImplementation(libs.junit5)
-
+    testImplementation(libs.okhttp3.mock)
+    testRuntimeOnly(libs.jupiter.engine)
 
 }

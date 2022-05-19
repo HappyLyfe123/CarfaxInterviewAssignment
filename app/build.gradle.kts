@@ -6,6 +6,8 @@ plugins {
     id(GradlePluginId.KOTLIN_KAPT)
 }
 
+tasks.assembleAndroidTest
+
 android {
     compileSdk = AndroidConfig.COMPILE_SDK_VERSION
 

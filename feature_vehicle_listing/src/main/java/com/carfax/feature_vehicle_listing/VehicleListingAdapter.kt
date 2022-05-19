@@ -46,7 +46,7 @@ class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.V
                     onVehicleClick?.invoke(itemView.id)
                 }
                 binding.callDealerButton.setOnClickListener {
-                    onCallDealerClick?.invoke(itemView.phoneNumber)
+                    onCallDealerClick?.invoke(itemView.dealerInfo.phoneNumber)
                 }
 
             }

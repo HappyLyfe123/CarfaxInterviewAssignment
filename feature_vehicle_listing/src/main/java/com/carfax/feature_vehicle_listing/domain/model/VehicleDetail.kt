@@ -12,8 +12,7 @@ data class VehicleDetail(
     val trim: String = "",
     val price: Int = -1,
     val mileage: Int = -1,
-    val location: LocationInfo = LocationInfo(),
-    val phoneNumber: String = "",
+    val dealerInfo: DealerInfo = DealerInfo(),
     val exteriorColor: String = "",
     val interiorColor: String = "",
     val driveType: String = "",
@@ -45,7 +44,7 @@ data class VehicleDetail(
     }
 
     fun formatLocation(): String{
-        return "${location.city}, ${location.state}"
+        return "${dealerInfo.city}, ${dealerInfo.state}"
     }
 }
 
@@ -56,7 +55,8 @@ data class VehicleImage(
     val largeImage: String = ""
 )
 
-data class LocationInfo(
+data class DealerInfo(
     val city: String = "",
     val state: String = "",
+    val phoneNumber: String = "",
 )

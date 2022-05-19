@@ -3,7 +3,6 @@ plugins {
     id(GradlePluginId.ANDROID_APPLICATION) apply false
     id(GradlePluginId.ANDROID_LIBRARY) apply false
 }
-
 // all projects = root project + sub projects
 allprojects {
 

@@ -75,7 +75,7 @@ class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
     }
 
     private fun initializeObservable() {
-        viewModel.state
+        viewModel.viewState
             .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
             .onEach(this::handleState)
             .launchIn(lifecycleScope)
@@ -126,10 +126,10 @@ class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
         dialog.show()
     }
 
-    private fun handleState(state: VehicleListingState) {
-        with(state) {
-            Timber.d("${state.vehicleDetailListing.complete}")
-            vehicleListingAdapter.submitList(state.vehicleDetailListing.invoke())
+    private fun handleState(viewState: VehicleListingState) {
+        with(viewState) {
+            Timber.d("${viewState.vehicleDetailListing.complete}")
+            vehicleListingAdapter.submitList(viewState.vehicleDetailListing.invoke())
         }
     }
 

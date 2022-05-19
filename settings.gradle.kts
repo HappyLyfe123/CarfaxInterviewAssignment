@@ -121,6 +121,8 @@ dependencyResolutionManagement {
 
             // Testing
             alias("junit5").to("org.junit.jupiter:junit-jupiter:5.7.1")
+            alias("jupiter-engine").to("org.junit.jupiter:junit-jupiter-engine:5.7.1")
+            alias("okhttp3-mock").to("com.squareup.okhttp3:mockwebserver:4.9.3")
 
             // Mocking library
             alias("mockk").to("io.mockk:mockk:1.12.3")

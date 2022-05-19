@@ -21,22 +21,22 @@ data class RemoteVehicleDetail(
     @field:Json(name = "transmission") val transmission: String,
     @field:Json(name = "engine") val engine: String,
     @field:Json(name = "fuel") val fuel: String,
-    @field:Json(name = "dealer") val dealerInfo: DealerDto,
-    @field:Json(name = "images") val images: Images
+    @field:Json(name = "dealer") val dealerInfo: RemoteDealerInfo,
+    @field:Json(name = "images") val images: RemoteImages
 )
 
-data class Images(
+data class RemoteImages(
     @field:Json(name = "baseUrl") val baseURL: String,
-    @field:Json(name = "firstPhoto") val firstPhoto: ImagesType
+    @field:Json(name = "firstPhoto") val firstPhoto: RemoteImagesType
 )
 
-data class ImagesType(
+data class RemoteImagesType(
     @field:Json(name = "small") val small: String,
     @field:Json(name = "medium") val medium: String,
     @field:Json(name = "large") val large: String
 )
 
-data class DealerDto(
+data class RemoteDealerInfo(
     @field:Json(name= "city") val city: String,
     @field:Json(name= "state") val state: String,
     @field:Json(name= "phone") val phone: String

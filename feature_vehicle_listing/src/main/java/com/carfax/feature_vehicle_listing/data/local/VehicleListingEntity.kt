@@ -3,7 +3,7 @@ package com.carfax.feature_vehicle_listing.data.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import com.carfax.feature_vehicle_listing.domain.model.LocationInfo
+import com.carfax.feature_vehicle_listing.domain.model.DealerInfo
 import com.carfax.feature_vehicle_listing.domain.model.VehicleImage
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
@@ -20,8 +20,7 @@ data class VehicleDetailEntity(
     val trim: String,
     val price: Int,
     val mileage: Int,
-    val location: LocationInfo,
-    val phone: String,
+    val dealerInfo: DealerInfo,
     val exteriorColor: String,
     val interiorColor: String,
     val driveType: String,
@@ -33,16 +32,16 @@ data class VehicleDetailEntity(
 
 class VehicleListingConverters {
 
-    private val locationJsonAdapter: JsonAdapter<LocationInfo> = Moshi.Builder().build().adapter(LocationInfo::class.java)
+    private val locationJsonAdapter: JsonAdapter<DealerInfo> = Moshi.Builder().build().adapter(DealerInfo::class.java)
     private val vehicleImageJsonAdapter: JsonAdapter<VehicleImage> = Moshi.Builder().build().adapter(VehicleImage::class.java)
 
     @TypeConverter
-    fun fromLocation(location: LocationInfo): String {
+    fun fromLocation(location: DealerInfo): String {
         return locationJsonAdapter.toJson(location)
     }
 
     @TypeConverter
-    fun toLocation(location: String): LocationInfo? {
+    fun toLocation(location: String): DealerInfo? {
         return locationJsonAdapter.fromJson(location)
     }
 

@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 interface VehicleListingRepository {
-    suspend fun getVehicleListing(): Flow<Async<List<VehicleDetail>>>
-    suspend fun getVehicleDetail(id: String): Flow<Async<VehicleDetail>>
+    suspend fun getVehicleListing(): Async<List<VehicleDetail>>
+    suspend fun getVehicleDetail(id: String): Async<VehicleDetail>
 }

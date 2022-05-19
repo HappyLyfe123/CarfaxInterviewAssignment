@@ -1,7 +1,6 @@
 package com.carfax.feature_vehicle_listing
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -22,7 +21,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.carfax.feature_vehicle_listing.databinding.FragmentVehicleDetailBinding
 import com.carfax.library_ui.PermissionRequestCode
-import com.carfax.library_ui.viewLi1fecycleScope
+import com.carfax.library_ui.viewLifecycleScope
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -37,7 +36,6 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
     private val binding by viewBinding(FragmentVehicleDetailBinding::bind)
     private val viewModel: VehicleDetailViewModel by viewModels()
     private val args: VehicleDetailFragmentArgs by navArgs()
-    private var themeContext : Context? = null
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
         if (isGranted) {
@@ -48,7 +46,6 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
             showPermissionError()
         }
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,14 +66,14 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
     }
 
     private fun initializeObservables() {
-        viewModel.state
+        viewModel.viewState
             .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
             .onEach(this::handleState)
             .launchIn(lifecycleScope)
     }
 
-    private fun handleState(state: VehicleDetailState) {
-        state.vehicleDetail.invoke().let {
+    private fun handleState(viewState: VehicleDetailState) {
+        viewState.vehicleDetail.invoke().let {
             if (it != null) {
                 Glide.with(requireContext()).load(it.vehicleImage.mediumImage)
                     .placeholder(R.drawable.default_image_placeholder)
@@ -115,7 +112,6 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
                 val callIntent = Intent(Intent.ACTION_CALL)
                 callIntent.data = Uri.parse("tel:${viewModel.getDealerPhoneNumber()}")
                 startActivity(callIntent)
-                // You can use the API that requires the permission.
             }
             shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE) -> {
                 Timber.d("shouldShowRequestPermissionRationale got call")
