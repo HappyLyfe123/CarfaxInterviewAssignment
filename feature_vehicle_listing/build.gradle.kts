@@ -89,11 +89,6 @@ dependencies {
     implementation(libs.androidx.room.rxjava3)
     kapt(libs.androidx.room.compiler)
 
-    //ReactiveX
-    implementation(libs.rxjava)
-    implementation(libs.rxandroid)
-    implementation(libs.rxkotlin)
-
     //Testing
     testImplementation(libs.mockk)
     testImplementation(libs.junit5)

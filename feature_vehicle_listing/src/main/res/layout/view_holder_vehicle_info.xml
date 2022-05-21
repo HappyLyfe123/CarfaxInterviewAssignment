@@ -5,111 +5,109 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     android:background="@android:color/white"
-    app:cardElevation="5dp">
+    app:cardElevation="7dp"
+    app:cardCornerRadius="7dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/vehicle_photo_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:scaleType="centerCrop"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:contentDescription="@string/vehicle_photo_image_view_cd"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".55"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/test_car_small" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/vehicle_info_margin"
-            android:layout_marginTop="@dimen/vehicle_info_margin"
-            android:layout_marginEnd="@dimen/vehicle_info_margin">
+        <TextView
+            android:id="@+id/vehicle_year_make_model_trim_text_view"
+            style="@style/TextAppearance.Carmax.Headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vehicle_photo_image_view"
+            tools:text="2011 BMW 3 Series 328i" />
 
+        <TextView
+            android:id="@+id/vehicle_price_text_view"
+            style="@style/TextAppearance.Carmax.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@+id/vehicle_year_make_model_trim_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/vehicle_year_make_model_trim_text_view"
+            tools:text="$ 17,324" />
 
-            <TextView
-                android:id="@+id/vehicle_year_make_model_trim_text_view"
-                style="@style/TextAppearance.MdcTypographyStyles.Headline6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toTopOf="@id/vehicle_price_text_view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                tools:text="2011 BMW 3 Series 328i" />
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/materialDivider"
+            android:layout_width="3dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            app:dividerColor="@color/grey_1"
+            app:layout_constraintBottom_toBottomOf="@+id/vehicle_price_text_view"
+            app:layout_constraintStart_toEndOf="@+id/vehicle_price_text_view"
+            app:layout_constraintTop_toTopOf="@+id/vehicle_price_text_view">
 
-            <TextView
-                android:id="@+id/vehicle_price_text_view"
-                style="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toTopOf="@id/vehicle_location_text_view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vehicle_year_make_model_trim_text_view"
-                tools:text="$ 17,324" />
+        </com.google.android.material.divider.MaterialDivider>
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/price_mileage_divider_view"
-                android:layout_width="2dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintBottom_toBottomOf="@id/vehicle_price_text_view"
-                app:layout_constraintEnd_toStartOf="@id/vehicle_mileage_text_view"
-                app:layout_constraintStart_toEndOf="@id/vehicle_price_text_view"
-                app:layout_constraintTop_toTopOf="@id/vehicle_price_text_view" />
+        <TextView
+            android:id="@+id/vehicle_mileage_text_view"
+            style="@style/TextAppearance.Carmax.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/vehicle_price_text_view"
+            app:layout_constraintStart_toEndOf="@+id/materialDivider"
+            app:layout_constraintTop_toTopOf="@+id/vehicle_price_text_view"
+            tools:text="39.1 km" />
 
-            <TextView
-                android:id="@+id/vehicle_mileage_text_view"
-                style="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                app:layout_constraintBottom_toBottomOf="@id/vehicle_price_text_view"
-                app:layout_constraintStart_toEndOf="@+id/price_mileage_divider_view"
-                app:layout_constraintTop_toTopOf="@id/vehicle_price_text_view"
-                tools:text="39.1 km" />
+        <TextView
+            android:id="@+id/vehicle_location_text_view"
+            style="@style/TextAppearance.Carmax.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@+id/vehicle_year_make_model_trim_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/vehicle_price_text_view"
+            tools:text="Highland Park, IL" />
 
-            <TextView
-                android:id="@+id/vehicle_location_text_view"
-                style="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toTopOf="@id/Vehicle_info_divider"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vehicle_price_text_view"
-                tools:text="Highland Park, IL" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/Vehicle_info_divider"
-                android:layout_width="0dp"
-                android:layout_height=".5dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vehicle_location_text_view" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/Vehicle_info_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            app:dividerColor="@color/grey_1"
+            app:layout_constraintEnd_toEndOf="@+id/vehicle_year_make_model_trim_text_view"
+            app:layout_constraintStart_toStartOf="@+id/vehicle_year_make_model_trim_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/vehicle_location_text_view" />
 
         <Button
             android:id="@+id/call_dealer_button"
-            style="@style/TextAppearance.MdcTypographyStyles.Headline6"
+            style="@style/TextAppearance.Carmax.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:text="@string/call_dealer_cap"
             android:textColor="#0277BD"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Vehicle_info_divider" />
+            app:layout_constraintTop_toBottomOf="@+id/Vehicle_info_divider" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </com.google.android.material.card.MaterialCardView>

@@ -9,178 +9,167 @@
     <ImageView
         android:id="@+id/vehicle_photo_image_view"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="0dp"
         android:contentDescription="@string/vehicle_photo_image_view_cd"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".33"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/test_car_small" />
 
+
+    <TextView
+        android:id="@+id/vehicle_year_make_model_trim_text_view"
+        style="@style/TextAppearance.Carmax.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vehicle_photo_image_view"
+        tools:text="2011 BMW 3 Series 328i" />
+
+    <TextView
+        android:id="@+id/vehicle_price_text_view"
+        style="@style/TextAppearance.Carmax.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vehicle_mileage_text_view"
+        app:layout_constraintStart_toEndOf="@+id/mileage_price_material_divider"
+        app:layout_constraintTop_toTopOf="@+id/vehicle_mileage_text_view"
+        tools:text="$17,324" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/mileage_price_material_divider"
+        android:layout_width="3dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        app:dividerColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/vehicle_mileage_text_view"
+        app:layout_constraintStart_toEndOf="@+id/vehicle_mileage_text_view"
+        app:layout_constraintTop_toTopOf="@+id/vehicle_mileage_text_view">
+
+    </com.google.android.material.divider.MaterialDivider>
+
+    <TextView
+        android:id="@+id/vehicle_mileage_text_view"
+        style="@style/TextAppearance.Carmax.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/vehicle_year_make_model_trim_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/vehicle_year_make_model_trim_text_view"
+        tools:text="65k mi" />
+
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/call_dealer_button"
+        android:layout_marginTop="20dp"
+        app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:cardElevation="3dp"
-        app:layout_constraintTop_toBottomOf="@id/vehicle_photo_image_view">
+        app:layout_constraintTop_toBottomOf="@+id/mileage_price_material_divider">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <TextView
-                android:id="@+id/vehicle_year_make_model_trim_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
-                android:layout_marginStart="@dimen/vehicle_detail_listing_vehicle_info_margin_start"
-                app:layout_constraintBottom_toTopOf="@id/vehicle_price_text_view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="2011 BMW 3 Series 328i" />
-
-            <TextView
-                android:id="@+id/vehicle_price_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="@dimen/vehicle_detail_listing_price_and_mileage_divider_margin_start"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/price_mileage_divider_view"
-                app:layout_constraintStart_toStartOf="@id/vehicle_year_make_model_trim_text_view"
-                app:layout_constraintTop_toBottomOf="@id/vehicle_year_make_model_trim_text_view"
-                tools:text="$17,324" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/price_mileage_divider_view"
-                android:layout_width="2dp"
-                android:layout_height="15dp"
-                android:background="@android:color/black"
-                app:layout_constraintBottom_toBottomOf="@id/vehicle_price_text_view"
-                app:layout_constraintEnd_toStartOf="@id/vehicle_mileage_text_view"
-                app:layout_constraintStart_toEndOf="@id/vehicle_price_text_view"
-                app:layout_constraintTop_toTopOf="@id/vehicle_price_text_view" />
-
-            <TextView
-                android:id="@+id/vehicle_mileage_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                style="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
-                android:textStyle="bold"
-                android:layout_marginStart="@dimen/vehicle_detail_listing_price_and_mileage_divider_margin_start"
-                app:layout_constraintBottom_toBottomOf="@id/vehicle_price_text_view"
-                app:layout_constraintStart_toEndOf="@+id/price_mileage_divider_view"
-                app:layout_constraintTop_toTopOf="@id/vehicle_price_text_view"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="65k mi" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/vehicle_info_divider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                app:dividerColor="@color/grey1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vehicle_mileage_text_view" />
+            android:paddingStart="30dp"
+            android:paddingTop="10dp"
+            android:background="@drawable/bc_vehicle_detail">
 
             <TextView
                 android:id="@+id/vehicle_info_title_text_view"
+                style="@style/TextAppearance.Carmax.Subtitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textColor="@android:color/black"
                 android:text="@string/vehicle_info"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/vehicle_detail_grid_layout"
-                app:layout_constraintTop_toBottomOf="@id/vehicle_info_divider" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <GridLayout
                 android:id="@+id/vehicle_detail_grid_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="25dp"
                 android:columnCount="2"
-                android:layout_marginStart="@dimen/vehicle_detail_listing_vehicle_info_margin_start"
-                android:layout_marginBottom="40dp"
                 android:paddingTop="25dp"
                 android:rowCount="8"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vehicle_info_title_text_view"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/vehicle_info_title_text_view">
 
                 <!--        Location        -->
                 <TextView
                     android:id="@+id/location_label_text_view"
+                    style="@style/TextAppearance.Carmax.Body2"
                     android:layout_width="wrap_content"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
-                    android:text="@string/location"
                     android:layout_marginEnd="@dimen/vehicle_detail_grid_layout_margin"
+                    android:text="@string/location"
                     android:textColor="#616161" />
 
                 <TextView
                     android:id="@+id/location_info_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     tools:text="New York, NY" />
 
                 <!--        Exterior Color        -->
                 <TextView
                     android:id="@+id/exterior_color_label_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     android:layout_marginEnd="@dimen/vehicle_detail_grid_layout_margin"
                     android:text="@string/exterior_color"
                     android:textColor="#616161" />
 
                 <TextView
                     android:id="@+id/exterior_color_info_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     tools:text="Blue" />
 
                 <!--        Interior Color        -->
                 <TextView
                     android:id="@+id/interior_color_label_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     android:layout_marginEnd="@dimen/vehicle_detail_grid_layout_margin"
                     android:text="@string/interior_color"
                     android:textColor="#616161" />
 
                 <TextView
                     android:id="@+id/interior_color_info_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     tools:text="Black" />
 
                 <!--        Drive Type        -->
                 <TextView
                     android:id="@+id/drive_type_label_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     android:layout_marginEnd="@dimen/vehicle_detail_grid_layout_margin"
                     android:text="@string/drive_type"
                     android:textColor="#616161" />
 
                 <TextView
                     android:id="@+id/drive_type_info_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     tools:text="FWD" />
 
                 <!--        Transmission        -->
                 <TextView
                     android:id="@+id/transmission_label_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     android:layout_marginEnd="@dimen/vehicle_detail_grid_layout_margin"
                     android:text="@string/transmission"
                     android:textColor="#616161" />
 
                 <TextView
                     android:id="@+id/transmission_info_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     tools:text="Automatic">
 
                 </TextView>
@@ -188,14 +177,14 @@
                 <!--        Body Style        -->
                 <TextView
                     android:id="@+id/body_style_label_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     android:layout_marginEnd="@dimen/vehicle_detail_grid_layout_margin"
                     android:text="@string/body_style"
                     android:textColor="#616161" />
 
                 <TextView
                     android:id="@+id/body_style_info_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     tools:text="Sedan">
 
                 </TextView>
@@ -203,29 +192,31 @@
                 <!--        Engine        -->
                 <TextView
                     android:id="@+id/engine_label_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     android:layout_marginEnd="@dimen/vehicle_detail_grid_layout_margin"
                     android:text="@string/engine"
-                    android:textColor="#757575">
+                    android:textColor="#757575"
+                    tools:ignore="TextContrastCheck">
 
                 </TextView>
 
                 <TextView
                     android:id="@+id/engine_info_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     tools:text="4 Cyl 2.4 L" />
 
                 <!--        Fuel        -->
                 <TextView
                     android:id="@+id/fuel_label_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     android:layout_marginEnd="@dimen/vehicle_detail_grid_layout_margin"
                     android:text="@string/fuel"
-                    android:textColor="#757575" />
+                    android:textColor="#757575"
+                    tools:ignore="TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/fuel_info_text_view"
-                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    style="@style/TextAppearance.Carmax.Body2"
                     tools:text="Gasoline" />
 
 
@@ -233,19 +224,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/call_dealer_button"
+        style="@style/TextAppearance.Carmax.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:background="@color/blue_100"
         android:text="@string/call_dealer_cap"
         android:textColor="@android:color/white"
-        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

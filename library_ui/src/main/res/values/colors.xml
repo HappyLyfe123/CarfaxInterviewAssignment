@@ -4,5 +4,6 @@
     <color name="blue_300">#134275</color>
 
     <!--  Grey  -->
-    <color name="grey1">#D8D8D8</color>
+    <color name="grey_1">#D8D8D8</color>
+    <color name="grey_2">#E8E6E6</color>
 </resources>

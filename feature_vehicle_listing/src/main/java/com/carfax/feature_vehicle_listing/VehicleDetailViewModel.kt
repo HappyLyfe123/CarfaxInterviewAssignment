@@ -22,6 +22,10 @@ class VehicleDetailViewModel @Inject constructor(
     private val repository: VehicleListingRepository
 ) : ViewModel() {
 
+    init {
+
+    }
+
     private val _viewState = MutableStateFlow(VehicleDetailState())
     val viewState = _viewState.asStateFlow()
 

@@ -63,11 +63,6 @@ dependencyResolutionManagement {
             val kotlinVersion: String by settings
             version("kotlin", kotlinVersion)
 
-            //RXJava
-            alias("rxandroid").to("io.reactivex.rxjava3:rxandroid:3.0.0")
-            alias("rxjava").to("io.reactivex.rxjava3:rxjava:3.0.0")
-            alias("rxkotlin").to("io.reactivex.rxjava3:rxkotlin:3.0.0")
-
             // Android Core
             alias("androidx-core-coreKtx").to("androidx.core", "core-ktx").version("1.7.0")
             alias("androidx-core-splashScreen").to("androidx.core", "core-splashscreen").version("1.0.0-beta01")
@@ -117,7 +112,7 @@ dependencyResolutionManagement {
             alias("timber").to("com.jakewharton.timber", "timber").version("5.0.1")
 
             //Glide
-           alias("glide").to("com.github.bumptech.glide:glide:4.13.0")
+            alias("glide").to("com.github.bumptech.glide:glide:4.13.0")
 
             // Testing
             alias("junit5").to("org.junit.jupiter:junit-jupiter:5.7.1")
