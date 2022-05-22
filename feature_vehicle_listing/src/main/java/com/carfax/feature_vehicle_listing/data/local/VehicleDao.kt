@@ -16,7 +16,7 @@ interface VehicleDao {
     suspend fun clearVehicleListing()
 
     @Query("SELECT * FROM vehicleListing WHERE id = :id")
-    suspend fun getVehicleDetail(id: String): VehicleDetailEntity
+    suspend fun getVehicleDetail(id: String): VehicleDetailEntity?
 
     @Query("SELECT * FROM vehicleListing")
     suspend fun getVehicleListing(): List<VehicleDetailEntity>

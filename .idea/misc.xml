@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.2101851851851852" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2095" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.32083333333333336" />
@@ -10,8 +11,12 @@
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2095" />
         <entry key="feature_vehicle_listing/src/main/res/drawable/bc_vehicle_detail.xml" value="0.5" />
         <entry key="feature_vehicle_listing/src/main/res/layout/fragment_vehicle_detail.xml" value="0.25" />
-        <entry key="feature_vehicle_listing/src/main/res/layout/fragment_vehicle_listing.xml" value="0.25" />
+        <entry key="feature_vehicle_listing/src/main/res/layout/fragment_vehicle_listing.xml" value="0.33" />
         <entry key="feature_vehicle_listing/src/main/res/layout/view_holder_vehicle_info.xml" value="0.22" />
+        <entry key="library_ui/src/main/res/drawable/ic_baseline_error_24.xml" value="0.2045" />
+        <entry key="library_ui/src/main/res/drawable/ic_baseline_error_50.xml" value="0.2045" />
+        <entry key="library_ui/src/main/res/drawable/ic_error.xml" value="0.2045" />
+        <entry key="library_ui/src/main/res/layout/view_holder_error_info.xml" value="0.33" />
       </map>
     </option>
   </component>

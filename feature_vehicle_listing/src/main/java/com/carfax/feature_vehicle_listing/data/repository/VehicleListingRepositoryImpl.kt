@@ -11,6 +11,7 @@ import com.carfax.library_network.Fail
 import com.carfax.library_network.Success
 import okio.IOException
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -54,6 +55,9 @@ class VehicleListingRepositoryImpl @Inject constructor(
 
     override suspend fun getVehicleDetail(id: String): Async<VehicleDetail> {
         return Success(dao.getVehicleDetail(id).run {
+            if (this == null) {
+                return@run VehicleDetail()
+            }
             this.toVehicleDetail()
         })
     }

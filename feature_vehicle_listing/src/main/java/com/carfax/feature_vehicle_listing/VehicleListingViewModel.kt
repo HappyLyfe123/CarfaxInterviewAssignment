@@ -31,6 +31,10 @@ class VehicleListingViewModel @Inject constructor(
         getVehicleListing()
     }
 
+    fun refreshVehicleListing(){
+        getVehicleListing()
+    }
+
     private fun getVehicleListing() {
         viewModelScope.launch(Dispatchers.IO) {
             _viewState.value = _viewState.value.copy(

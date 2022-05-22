@@ -45,10 +45,10 @@ class VehicleListingAdapter : ListAdapter<VehicleDetail, VehicleListingAdapter.V
                 binding.root.setOnClickListener {
                     onVehicleClick?.invoke(itemView.id)
                 }
+
                 binding.callDealerButton.setOnClickListener {
                     onCallDealerClick?.invoke(itemView.dealerInfo.phoneNumber)
                 }
-
             }
         }
     }

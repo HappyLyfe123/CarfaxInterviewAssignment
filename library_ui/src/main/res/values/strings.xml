@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name_cap">CARFAX</string>
+    <string name="error_icon_cd">Error icon</string>
+    <string name="error_loading">Error loading\nTap to try again</string>
 </resources>

@@ -5,12 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -22,7 +19,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.carfax.feature_vehicle_listing.databinding.FragmentVehicleListingBinding
+import com.carfax.library_network.Fail
+import com.carfax.library_network.Loading
+import com.carfax.library_network.Success
+import com.carfax.library_network.Uninitialized
 import com.carfax.library_ui.PermissionRequestCode
+import com.carfax.library_ui.createErrorNoActionAlertDialog
 import com.carfax.library_ui.viewLifecycleScope
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,6 +73,10 @@ class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
         vehicleListingAdapter.onCallDealerClick = { phoneNumber ->
             Timber.d("Call dealer button clicked")
             callDealer(phoneNumber)
+        }
+
+        binding.errorView.setOnClickListener {
+            viewModel.refreshVehicleListing()
         }
     }
 
@@ -127,9 +133,26 @@ class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
     }
 
     private fun handleState(viewState: VehicleListingState) {
-        with(viewState) {
-            Timber.d("${viewState.vehicleDetailListing.complete}")
+        with(viewState.vehicleDetailListing) {
             vehicleListingAdapter.submitList(viewState.vehicleDetailListing.invoke())
+            when (viewState.vehicleDetailListing) {
+                is Success -> {
+                    binding.vehicleListingProgressCircle.visibility = View.INVISIBLE
+                    binding.errorView.visibility = View.GONE
+                }
+                is Loading -> {
+                    binding.vehicleListingProgressCircle.visibility = View.VISIBLE
+                    binding.errorView.visibility = View.GONE
+                }
+                is Fail -> {
+                    binding.vehicleListingProgressCircle.visibility = View.INVISIBLE
+                    binding.errorView.visibility = View.VISIBLE
+                    binding.errorView.setText(getString(R.string.error_loading))
+                }
+                is Uninitialized ->{
+
+                }
+            }
         }
     }
 
