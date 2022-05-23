@@ -63,14 +63,14 @@
         <item name="fontFamily">@font/poppins_regular</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TextAppearance.Carmax.Body2" parent="TextAppearance.MaterialComponents.Body2">
         <item name="fontFamily">@font/poppins_regular</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TextAppearance.Carmax.Button" parent="TextAppearance.MaterialComponents.Button">
@@ -78,7 +78,7 @@
         <item name="android:fontFamily">@font/poppins_regular</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TextAppearance.Carmax.Caption" parent="TextAppearance.MaterialComponents.Caption">

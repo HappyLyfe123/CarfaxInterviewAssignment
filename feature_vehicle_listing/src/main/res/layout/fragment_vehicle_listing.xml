@@ -56,7 +56,7 @@
         android:layout_gravity="center"
         android:background="@android:color/transparent"
         android:indeterminate="true"
-        android:visibility="visible"
+        android:visibility="gone"
         app:indicatorColor="@color/blue_300"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

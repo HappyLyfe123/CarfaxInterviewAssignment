@@ -86,13 +86,14 @@ dependencies {
     // Room
     implementation(libs.androidx.room)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.rxjava3)
     kapt(libs.androidx.room.compiler)
 
     //Testing
     testImplementation(libs.mockk)
     testImplementation(libs.junit5)
     testImplementation(libs.okhttp3.mock)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
     testRuntimeOnly(libs.jupiter.engine)
 
 }

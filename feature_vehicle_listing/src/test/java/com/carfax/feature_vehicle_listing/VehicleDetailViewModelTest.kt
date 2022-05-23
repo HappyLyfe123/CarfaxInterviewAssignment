@@ -1,116 +1,97 @@
 package com.carfax.feature_vehicle_listing
 
+import androidx.lifecycle.SavedStateHandle
 import com.carfax.feature_vehicle_listing.domain.model.DealerInfo
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 import com.carfax.feature_vehicle_listing.domain.repository.VehicleListingRepository
-import com.carfax.library_network.Fail
-import com.carfax.library_network.Loading
 import com.carfax.library_network.Success
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineExtension::class)
+@ExperimentalCoroutinesApi
 internal class VehicleDetailViewModelTest {
 
-    private val vehicleListingRepository : VehicleListingRepository = mockk()
+    private val testVehicleListingRepository: VehicleListingRepository = mockk()
+    private val testSavedStateHandle: SavedStateHandle = SavedStateHandle()
 
-    /*
-    * Given that we need to fetch the vehicle list
-    *
-    * When the repository fail
-    *
-    * Then we output an Error state from the View Model
-    * */
+    /**
+     * Given that the user click on a vehicle from the list
+     *
+     * When we go to get the vehicle and the vehicle id is not valid
+     *
+     * Then we output an default vehicle detail
+     * */
     @Test
-    fun getViewStateOnRepositoryFail() {
-        val error = Fail<VehicleDetail>(IllegalStateException())
+    fun getViewStateOnRepositoryFail() = runTest {
 
         coEvery {
-            vehicleListingRepository.getVehicleDetail(FAKE_VEHICLE_ID)
-        } returns error
+            testVehicleListingRepository.getVehicleDetail(FAKE_VEHICLE_ID)
+        } returns Success(VehicleDetail())
 
-        val viewModel = genViewMode()
+        val viewModel = genViewModel()
 
-        val viewState = viewModel.viewState.value.copy(
-            vehicleDetail = error
-        )
-        assert((viewState.vehicleDetail as Fail).error is java.lang.IllegalStateException)
+        assertEquals(viewModel.viewState.value.vehicleDetail, Success(VehicleDetail()))
 
     }
 
-    /*
-    * Given that we need to fetch the vehicle list
-    *
-    * When the repository success
-    *
-    * Then we output an success from the ViewModel
-    * */
+    /**
+     * Given that we need to fetch the vehicle list
+     *
+     * When the source of truth able to result back the vehical detail
+     *
+     * Then we output an success from the ViewModel
+     * */
     @Test
-    fun getViewStateOnRepositorySuccess(){
-        val success =  Success(VehicleDetail())
+    fun getViewStateOnRepositorySuccess() {
+        val success = Success(VehicleDetail(id = "123"))
 
         coEvery {
-            vehicleListingRepository.getVehicleDetail(FAKE_VEHICLE_ID)
+            testVehicleListingRepository.getVehicleDetail(FAKE_VEHICLE_ID)
         } returns success
 
         // Given
-        val viewModel = genViewMode()
+        val viewModel = genViewModel()
 
-        val viewState = viewModel.viewState.value.copy(
-            vehicleDetail = success
-        )
+        assertEquals(viewModel.viewState.value.vehicleDetail, success)
 
-        assertEquals(viewState.vehicleDetail, success)
-
-    }
-
-    /*
-    * Given that we need to fetch the vehicle list
-    *
-    * When is loading
-    *
-    * Then we output an loading from the ViewModel
-    * */
-    @Test
-    fun getViewStateLoading(){
-        val loading = Loading<VehicleDetail>(null)
-
-        val viewModel = genViewMode()
-
-        val viewState = viewModel.viewState.value.copy(
-            vehicleDetail = loading
-        )
-
-        assert(!viewState.vehicleDetail.shouldLoad)
     }
 
     @Test
     fun getDealerPhoneNumber() {
 
-        val success = Loading(
+        val success = Success(
             VehicleDetail(
+                id = "123",
                 dealerInfo = DealerInfo(
                     phoneNumber = "123456"
-                ),
-
-        )
-        )
-
-        val viewModel = genViewMode()
-
-        val viewState = viewModel.viewState.value.copy(
-            vehicleDetail = success
+                )
+            )
         )
 
-        assertEquals(viewState.vehicleDetail.invoke()?.dealerInfo?.phoneNumber ?: "", "123456")
+        coEvery {
+            testVehicleListingRepository.getVehicleDetail(FAKE_VEHICLE_ID)
+        } returns success
+
+        val viewModel = genViewModel()
+
+        assertEquals(viewModel.viewState.value.vehicleDetail.invoke()?.dealerInfo?.phoneNumber ?: "", "123456")
     }
 
-    private fun genViewMode() = VehicleDetailViewModel(
-        vehicleListingRepository
+    private fun genViewModel() = VehicleDetailViewModel(
+        testVehicleListingRepository,
+        TestDispatcherFacade(),
+        testSavedStateHandle.apply {
+            set("vehicle_id", FAKE_VEHICLE_ID)
+        }
     )
 
-    companion object{
+    companion object {
         private const val FAKE_VEHICLE_ID = "123245"
     }
 }

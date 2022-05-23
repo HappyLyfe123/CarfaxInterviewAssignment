@@ -2,11 +2,6 @@ rootProject.buildFileName = "build.gradle.kts"
 
 enableFeaturePreview("VERSION_CATALOGS")
 
-// Set single lock file (gradle.lockfile)
-// This preview feature should be enabled by default in Gradle 7
-// More: https://docs.gradle.org/current/userguide/dependency_locking.html#single_lock_file_per_project
-enableFeaturePreview("ONE_LOCKFILE_PER_PROJECT")
-
 include(
     ":app",
 
@@ -88,7 +83,6 @@ dependencyResolutionManagement {
             alias("androidx-room").to("androidx.room","room-runtime").versionRef("room")
             alias("androidx-room-compiler").to("androidx.room","room-compiler").versionRef("room")
             alias("androidx-room-ktx").to("androidx.room", "room-ktx").versionRef("room")
-            alias("androidx-room-rxjava3").to("androidx.room", "room-rxjava3").versionRef("room")
 
             // ViewBinding
             alias("zhuinden-fragmentViewBindingDelegate").to("com.github.Zhuinden", "fragmentviewbindingdelegate-kt").version("1.0.0")
@@ -118,6 +112,8 @@ dependencyResolutionManagement {
             alias("junit5").to("org.junit.jupiter:junit-jupiter:5.7.1")
             alias("jupiter-engine").to("org.junit.jupiter:junit-jupiter-engine:5.7.1")
             alias("okhttp3-mock").to("com.squareup.okhttp3:mockwebserver:4.9.3")
+            alias("kotlinx-coroutines-test").to("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1")
+            alias("turbine").to("app.cash.turbine:turbine:0.8.0")
 
             // Mocking library
             alias("mockk").to("io.mockk:mockk:1.12.3")

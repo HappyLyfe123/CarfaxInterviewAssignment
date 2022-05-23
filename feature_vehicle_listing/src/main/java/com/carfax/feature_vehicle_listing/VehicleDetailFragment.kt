@@ -35,7 +35,6 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
 
     private val binding by viewBinding(FragmentVehicleDetailBinding::bind)
     private val viewModel: VehicleDetailViewModel by viewModels()
-    private val args: VehicleDetailFragmentArgs by navArgs()
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
         if (isGranted) {
@@ -55,8 +54,6 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
                 initializeObservables()
             }
         }
-
-        viewModel.getVehicleDetail(args.vehicleId)
     }
 
     private fun initializeViews() {

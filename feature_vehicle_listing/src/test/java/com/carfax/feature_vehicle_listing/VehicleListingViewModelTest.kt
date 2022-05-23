@@ -3,91 +3,122 @@ package com.carfax.feature_vehicle_listing
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 import com.carfax.feature_vehicle_listing.domain.repository.VehicleListingRepository
 import com.carfax.library_network.Fail
-import com.carfax.library_network.Loading
 import com.carfax.library_network.Success
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import okio.IOException
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineExtension::class)
+@ExperimentalCoroutinesApi
 internal class VehicleListingViewModelTest {
+    private val testVehicleListingRepository: VehicleListingRepository = mockk()
 
-    private val vehicleListingRepository : VehicleListingRepository = mockk()
-
-    /*
-    * Given that we need to fetch the vehicle list
-    *
-    * When the repository fail
-    *
-    * Then we output an Error state from the View Model
-    * */
+    /**
+     * Given that the user open the app and we are fetching vehicle list
+     *
+     * When the user doesn't have internet connection
+     *
+     * Then we output an IOException error
+     */
     @Test
-    fun getViewStateOnRepositoryFail() {
-        val error = Fail<List<VehicleDetail>>(IllegalStateException())
+    fun getViewStateOnRepositoryFail() = runTest {
+        val error = Fail<List<VehicleDetail>>(IOException(), null)
         coEvery {
-            vehicleListingRepository.getVehicleListing()
+            testVehicleListingRepository.getVehicleListing()
         } returns error
 
         val viewModel = genViewMode()
 
-        val viewState = viewModel.viewState.value.copy(
-            vehicleDetailListing = error
-        )
-        assert((viewState.vehicleDetailListing as Fail).error is java.lang.IllegalStateException)
+        assertEquals(error, viewModel.viewState.value.vehicleDetailListing)
 
-        coVerify(exactly = 1){
-            vehicleListingRepository.getVehicleListing()
+        coVerify(exactly = 1) {
+            testVehicleListingRepository.getVehicleListing()
         }
 
     }
 
-    /*
-    * Given that we need to fetch the vehicle list
-    *
-    * When the repository success
-    *
-    * Then we output an success from the ViewModel
-    * */
+    /**
+     * Given that the user open the app and we are fetching vehicle list
+     *
+     * When the user doesn't have internet connection but have data cache
+     *
+     * Then we output an IOException error and the cache data
+     */
     @Test
-    fun getViewStateOnRepositorySuccess(){
-        val success =  Success<List<VehicleDetail>>(emptyList())
-
+    fun getViewStateOnRepositoryFailButHaveCache() = runTest {
+        val error = Fail(
+            IOException(), listOf(
+                VehicleDetail(
+                    id = "1234"
+                )
+            )
+        )
         coEvery {
-            vehicleListingRepository.getVehicleListing()
-        } returns success
+            testVehicleListingRepository.getVehicleListing()
+        } returns error
 
-        // Given
         val viewModel = genViewMode()
 
-        val viewState = viewModel.viewState.value.copy(
-            vehicleDetailListing = success
-        )
+        assertEquals(error, viewModel.viewState.value.vehicleDetailListing)
 
-        viewState.vehicleDetailListing.invoke()?.let { assert(it.isEmpty()) }
+        coVerify(exactly = 1) {
+            testVehicleListingRepository.getVehicleListing()
+        }
+
     }
 
 
-    /*
-    * Given that we need to fetch the vehicle list
-    *
-    * When is loading
-    *
-    * Then we output an loading from the ViewModel
-    * */
+    /**
+     * Given that the user open the app and we are fetching vehicle list
+     *
+     * When the user have internet connection
+     *
+     * Then we output the vehicle detail list to the ViewModel
+     * */
     @Test
-    fun getViewStateLoading(){
-        val loading = Loading<List<VehicleDetail>>(null)
+    fun getViewStateOnRepositorySuccess() {
+        val success = Success<List<VehicleDetail>>(emptyList())
+
+        coEvery {
+            testVehicleListingRepository.getVehicleListing()
+        } returns success
+
 
         val viewModel = genViewMode()
 
-        val viewState = viewModel.viewState.value.copy(
-            vehicleDetailListing = loading
-        )
+        viewModel.viewState.value.vehicleDetailListing.invoke()?.let { assertEquals(true, it.isEmpty()) }
+    }
 
-        assert(!viewState.vehicleDetailListing.shouldLoad)
+
+    /**
+     * Given that we need to fetch the vehicle list from the server
+     *
+     * When the repository is fetching the list from the server
+     *
+     * Then we output an loading from the ViewModel
+     * */
+    @Test
+    fun getViewStateLoading() = runTest {
+//        coEvery {
+//            testVehicleListingRepository.getVehicleListing()
+//        } returns Success(listOf(VehicleDetail(id = "123"), VehicleDetail(id = "456")))
+//
+//        val viewModel = genViewMode()
+//
+//        viewModel.viewState.test {
+//            println(awaitItem())
+//            cancelAndConsumeRemainingEvents()
+//        }
     }
 
     private fun genViewMode() = VehicleListingViewModel(
-        vehicleListingRepository
+        testVehicleListingRepository,
+        TestDispatcherFacade(),
     )
 }
