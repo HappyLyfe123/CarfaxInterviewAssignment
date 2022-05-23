@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,11 +15,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.carfax.feature_vehicle_listing.databinding.FragmentVehicleDetailBinding
-import com.carfax.library_ui.PermissionRequestCode
 import com.carfax.library_ui.viewLifecycleScope
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,12 +34,17 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
     private val viewModel: VehicleDetailViewModel by viewModels()
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-        if (isGranted) {
-            Timber.d("Got call permission")
-            return@registerForActivityResult
-        } else {
-            Timber.d("Don't have permission, showing error message")
-            showPermissionError()
+        if (!isGranted) {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("Permission to access call is required for this app to make a phone calls.")
+                .setTitle("Permission required")
+                .setPositiveButton("Ok")
+                { dialog, _ ->
+                    Timber.d("Clicked")
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 
@@ -92,45 +94,19 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
         }
     }
 
-    private fun asForCallPhonePermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(Manifest.permission.CALL_PHONE),
-            PermissionRequestCode.CallPhone
-        )
-    }
-
     private fun callDealer() {
-        when {
+        when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.CALL_PHONE
-            ) == PackageManager.PERMISSION_GRANTED -> {
+            ) -> {
                 val callIntent = Intent(Intent.ACTION_CALL)
                 callIntent.data = Uri.parse("tel:${viewModel.getDealerPhoneNumber()}")
                 startActivity(callIntent)
-            }
-            shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE) -> {
-                Timber.d("shouldShowRequestPermissionRationale got call")
-                asForCallPhonePermission()
             }
             else -> {
                 requestPermissionLauncher.launch(Manifest.permission.CALL_PHONE)
             }
         }
-
-    }
-
-    private fun showPermissionError() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Permission to access call is required for this app to make a phone calls.")
-            .setTitle("Permission required")
-            .setPositiveButton("Ok")
-            { dialog, _ ->
-                Timber.d("Clicked")
-                dialog.dismiss()
-            }
-        val dialog = builder.create()
-        dialog.show()
     }
 }

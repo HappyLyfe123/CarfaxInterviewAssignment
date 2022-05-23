@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -23,7 +23,6 @@ import com.carfax.library_network.Fail
 import com.carfax.library_network.Loading
 import com.carfax.library_network.Success
 import com.carfax.library_network.Uninitialized
-import com.carfax.library_ui.PermissionRequestCode
 import com.carfax.library_ui.viewLifecycleScope
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,11 +41,17 @@ class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
     private lateinit var navController: NavController
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-        if (isGranted) {
-            Timber.d("I got permission")
-            return@registerForActivityResult
-        } else {
-            showPermissionError()
+        if (!isGranted) {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("Permission to access call is required for this app to make a phone calls.")
+                .setTitle("Permission required")
+                .setPositiveButton("Ok")
+                { dialog, _ ->
+                    Timber.d("Clicked")
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 
@@ -97,48 +102,31 @@ class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
                 startActivity(callIntent)
             }
             else -> {
-                requestPermissionLauncher.launch(
-                    Manifest.permission.CALL_PHONE
-                )
+                requestPermissionLauncher.launch(Manifest.permission.CALL_PHONE)
             }
         }
-    }
-
-    private fun showPermissionError() {
-            viewLifecycleScope.launchWhenResumed {
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setMessage("Permission to access call is required for this app to make a phone calls.")
-                    .setTitle("Permission required")
-                    .setIcon(R.drawable.ic_error)
-                    .setPositiveButton("Ok")
-                    { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                val dialog = builder.create()
-                dialog.show()
-            }
     }
 
     private fun handleState(viewState: VehicleListingState) {
 
         when (viewState.vehicleDetailListing) {
             is Success -> {
-                binding.vehicleListingProgressCircle.visibility = View.INVISIBLE
+                binding.vehicleListingProgressCircle.isVisible = viewState.vehicleDetailListing.isLoading
                 vehicleListingAdapter.submitList(viewState.vehicleDetailListing.invoke())
-                binding.errorView.visibility = View.GONE
+                binding.errorView.isVisible = viewState.vehicleDetailListing.isError
             }
             is Loading -> {
-                binding.vehicleListingProgressCircle.visibility = View.VISIBLE
-                binding.errorView.visibility = View.GONE
+                binding.vehicleListingProgressCircle.isVisible = viewState.vehicleDetailListing.isLoading
+                binding.errorView.isVisible = viewState.vehicleDetailListing.isError
             }
             is Fail -> {
-                binding.vehicleListingProgressCircle.visibility = View.INVISIBLE
-                binding.errorView.visibility = View.VISIBLE
+                binding.vehicleListingProgressCircle.isVisible = viewState.vehicleDetailListing.isLoading
+                binding.errorView.isVisible = viewState.vehicleDetailListing.isError
                 binding.errorView.setText(getString(R.string.error_loading))
                 vehicleListingAdapter.submitList(viewState.vehicleDetailListing.invoke())
             }
             is Uninitialized -> {
-                //If it uninitialized just do nothing
+                // If it uninitialized just do nothing
                 return
             }
         }
