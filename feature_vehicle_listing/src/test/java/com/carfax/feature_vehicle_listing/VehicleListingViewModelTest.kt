@@ -3,11 +3,13 @@ package com.carfax.feature_vehicle_listing
 import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
 import com.carfax.feature_vehicle_listing.domain.repository.VehicleListingRepository
 import com.carfax.library_network.Fail
+import com.carfax.library_network.Loading
 import com.carfax.library_network.Success
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import okio.IOException
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -17,7 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MainCoroutineExtension::class)
 @ExperimentalCoroutinesApi
 internal class VehicleListingViewModelTest {
-    private val testVehicleListingRepository: VehicleListingRepository = mockk()
+    private val testVehicleListingRepository : VehicleListingRepository = mockk()
 
     /**
      * Given that the user open the app and we are fetching vehicle list
@@ -105,16 +107,16 @@ internal class VehicleListingViewModelTest {
      * */
     @Test
     fun getViewStateLoading() = runTest {
-//        coEvery {
-//            testVehicleListingRepository.getVehicleListing()
-//        } returns Success(listOf(VehicleDetail(id = "123"), VehicleDetail(id = "456")))
-//
-//        val viewModel = genViewMode()
-//
-//        viewModel.viewState.test {
-//            println(awaitItem())
-//            cancelAndConsumeRemainingEvents()
-//        }
+
+        // Set a delay so that the flow able to emit the state
+        coEvery { testVehicleListingRepository.getVehicleListing() } coAnswers {
+            delay(5000)
+            Success(listOf(VehicleDetail(id = "123"), VehicleDetail(id = "456")))
+        }
+
+        val viewModel = genViewMode()
+
+        assertEquals(Loading<List<VehicleDetail>>(emptyList()), viewModel.viewState.value.vehicleDetailListing)
     }
 
     private fun genViewMode() = VehicleListingViewModel(
