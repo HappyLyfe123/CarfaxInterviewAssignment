@@ -19,10 +19,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.carfax.feature_vehicle_listing.databinding.FragmentVehicleListingBinding
-import com.carfax.library_network.Fail
-import com.carfax.library_network.Loading
-import com.carfax.library_network.Success
-import com.carfax.library_network.Uninitialized
+import com.carfax.feature_vehicle_listing.domain.model.VehicleDetail
+import com.carfax.library_network.*
 import com.carfax.library_ui.viewLifecycleScope
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -114,6 +112,7 @@ class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
                 binding.vehicleListingProgressCircle.isVisible = viewState.vehicleDetailListing.isLoading
                 vehicleListingAdapter.submitList(viewState.vehicleDetailListing.invoke())
                 binding.errorView.isVisible = viewState.vehicleDetailListing.isError
+                preLoadImage(viewState.vehicleDetailListing.invoke())
             }
             is Loading -> {
                 binding.vehicleListingProgressCircle.isVisible = viewState.vehicleDetailListing.isLoading
@@ -132,4 +131,9 @@ class VehicleListingFragment : Fragment(R.layout.fragment_vehicle_listing) {
         }
     }
 
+    private fun preLoadImage(vehicleDetailList: List<VehicleDetail>){
+        vehicleDetailList.forEach { vehicleDetail->
+            requireContext().preLoadImageMemoryCache(vehicleDetail.vehicleImage.mediumImage, null)
+        }
+    }
 }
