@@ -57,7 +57,6 @@ dependencies {
     implementation(project(":library_ui"))
     implementation(project(":library_network"))
 
-
     // Android
     implementation(libs.androidx.core.coreKtx)
 
@@ -68,25 +67,8 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-
-    // Retrofit
-    api(libs.retrofit)
-    api(libs.moshi)
-
-    //Navigation
-    api(libs.navigation.fragment)
-    api(libs.navigation.ui)
-
-    //Glide
-    implementation(libs.glide)
-
     // Logging
     implementation(libs.timber)
-
-    // Room
-    implementation(libs.androidx.room)
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
 
     //Testing
     testImplementation(libs.mockk)

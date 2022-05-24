@@ -59,8 +59,8 @@ dependencies {
     api(libs.androidx.fragmentKtx)
 
     //Navigation
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
+    api(libs.navigation.fragment)
+    api(libs.navigation.ui)
 
     // Android Ui
     api(libs.androidx.recyclerview)
@@ -68,8 +68,5 @@ dependencies {
     // Lifecycle
     api(libs.androidx.lifecycle.runtimeKtx)
 
-    // Navigation
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
 
 }

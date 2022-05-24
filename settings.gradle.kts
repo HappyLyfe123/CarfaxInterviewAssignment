@@ -106,7 +106,7 @@ dependencyResolutionManagement {
             alias("timber").to("com.jakewharton.timber", "timber").version("5.0.1")
 
             //Glide
-            alias("glide").to("com.github.bumptech.glide:glide:4.13.0")
+            alias("coil").to("io.coil-kt:coil:2.1.0")
 
             // Testing
             alias("junit5").to("org.junit.jupiter:junit-jupiter:5.7.1")

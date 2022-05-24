@@ -29,7 +29,7 @@ data class Success<out T>(private val value: T) : Async<T>(isComplete = true, is
     override operator fun invoke(): T = value
 }
 
-data class Fail<out T>(val error: Throwable, private val value: T? = null) : Async<T>(isComplete = true, isLoading = true, isError = true,
+data class Fail<out T>(val error: Throwable, private val value: T? = null) : Async<T>(isComplete = true, isLoading = false, isError = true,
 value = value) {
     override fun equals(other: Any?): Boolean {
         if (other !is Fail<*>) return false

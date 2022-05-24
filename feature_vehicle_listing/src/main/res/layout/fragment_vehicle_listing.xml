@@ -47,6 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vehicle_listing_title_text_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/view_holder_vehicle_info" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator

@@ -44,7 +44,14 @@ dependencies {
 
     implementation(libs.okhttp.interceptor)
 
+    api(libs.coil)
+
     // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.moshi)
+    api(libs.retrofit)
+    api(libs.moshi)
+
+    // Room
+    api(libs.androidx.room)
+    api(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 }

@@ -15,8 +15,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import coil.load
+import coil.size.ViewSizeResolver
 import com.carfax.feature_vehicle_listing.databinding.FragmentVehicleDetailBinding
 import com.carfax.library_ui.viewLifecycleScope
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
@@ -72,24 +72,25 @@ class VehicleDetailFragment : Fragment(R.layout.fragment_vehicle_detail) {
     }
 
     private fun handleState(viewState: VehicleDetailState) {
-        viewState.vehicleDetail.invoke().let {
-            if (it != null) {
-                Glide.with(requireContext()).load(it.vehicleImage.mediumImage)
-                    .placeholder(R.drawable.default_image_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(binding.vehiclePhotoImageView)
-                binding.vehicleYearMakeModelTrimTextView.text = it.formatYearMakeModelTrim()
-                binding.vehiclePriceTextView.text = it.formatPrice()
-                binding.vehicleMileageTextView.text = it.formatMileage()
-                binding.locationInfoTextView.text = it.formatLocation()
-                binding.exteriorColorInfoTextView.text = it.exteriorColor
-                binding.interiorColorInfoTextView.text = it.interiorColor
-                binding.driveTypeInfoTextView.text = it.driveType
-                binding.transmissionInfoTextView.text = it.transmission
-                binding.bodyStyleInfoTextView.text = it.bodyStyle
-                binding.engineInfoTextView.text = it.engine
-                binding.bodyStyleInfoTextView.text
-                binding.fuelInfoTextView.text = it.fuel
+        viewState.vehicleDetail.invoke().let {vehicleDetail ->
+            if (vehicleDetail != null) {
+                with(binding){
+                    vehiclePhotoImageView.load(vehicleDetail.vehicleImage.mediumImage){
+                        size(ViewSizeResolver(binding.vehiclePhotoImageView))
+                    }
+                    vehicleYearMakeModelTrimTextView.text = vehicleDetail.formatYearMakeModelTrim()
+                    vehiclePriceTextView.text = vehicleDetail.formatPrice()
+                    vehicleMileageTextView.text = vehicleDetail.formatMileage()
+                    locationInfoTextView.text = vehicleDetail.formatLocation()
+                    exteriorColorInfoTextView.text = vehicleDetail.exteriorColor
+                    interiorColorInfoTextView.text = vehicleDetail.interiorColor
+                    driveTypeInfoTextView.text = vehicleDetail.driveType
+                    transmissionInfoTextView.text = vehicleDetail.transmission
+                    bodyStyleInfoTextView.text = vehicleDetail.bodyStyle
+                    engineInfoTextView.text = vehicleDetail.engine
+                    fuelInfoTextView.text = vehicleDetail.fuel
+                }
+
             }
         }
     }
